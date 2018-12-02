@@ -34,7 +34,6 @@ public class Node : MonoBehaviour {
 	void Start() {
 		isMarked = false;
 		MakeConnections();
-		GetComponent("Halo").enabled = false;
 	}
 
 	public void Mark() { //Possibly overload with parent argument
