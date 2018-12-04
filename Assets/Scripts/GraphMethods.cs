@@ -6,13 +6,15 @@ public class GraphMethods : MonoBehaviour {
 	public GameObject root;
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(Begin());
+		StartCoroutine(Begin()); //Do not touch!!!
 	}
 
-	private IEnumerator Begin() {
-		yield return BFS(root.GetComponent<Node>());
-		root.GetComponent<Node>().Clear();
-		yield return DFS(root.GetComponent<Node>(), 0, null);
+	private IEnumerator Begin() { //Everything happens here
+		root.GetComponent<GVNode>().SetLabel("Breadth First Search");
+		yield return BFS(root.GetComponent<GVNode>());
+		root.GetComponent<GVNode>().Clear();
+		root.GetComponent<GVNode>().SetLabel("Depth First Search");
+		yield return DFS(root.GetComponent<GVNode>(), 0, null);
 	}
 	
 	// Update is called once per frame
@@ -20,31 +22,31 @@ public class GraphMethods : MonoBehaviour {
 		
 	}
 
-	bool IsTree(Node root) { //is it a tree rooted at root?
+	bool IsTree(GVNode root) { //is it a tree rooted at root?
 		//TODO: Implement
 		return false;
 	}
  
-	bool IsBinTree(Node root) { //is it a binary tree?
+	bool IsBinTree(GVNode root) { //is it a binary tree?
 		if (!IsTree(root)) {
 			return false;
 		}
 		return false;
 	}
 
-	public IEnumerator BFS(Node start) {
-		Queue<Node[]> queue = new Queue<Node[]>(); //parent, child
-		Node[] pair = {null, start};
+	public IEnumerator BFS(GVNode start) {
+		Queue<GVNode[]> queue = new Queue<GVNode[]>(); //parent, child
+		GVNode[] pair = {null, start};
 		queue.Enqueue(pair);
 		int delay = 0;
 		while (queue.Count > 0) {
-			Node[] curr = queue.Dequeue();
-			Node node = curr[1];
-			Node parent = curr[0];
+			GVNode[] curr = queue.Dequeue();
+			GVNode node = curr[1];
+			GVNode parent = curr[0];
 			yield return node.Mark(parent, delay);
-			foreach (Node child in node.GetNeighbors()) {
+			foreach (GVNode child in node.GetNeighbors()) {
 				if (!child.IsMarked()) {
-					Node[] pair2 = {node, child};
+					GVNode[] pair2 = {node, child};
 					queue.Enqueue(pair2);
 				}
 			}
@@ -52,10 +54,10 @@ public class GraphMethods : MonoBehaviour {
 		}
 	}
 
-	public IEnumerator DFS(Node start, int depth, Node parent)
+	public IEnumerator DFS(GVNode start, int depth, GVNode parent)
     {
         yield return start.Mark(parent, depth); //consider making this an animation with parameters of current, or parent
-        foreach (Node child in start.GetNeighbors())
+        foreach (GVNode child in start.GetNeighbors())
         { 
             if (!child.IsMarked())
             {

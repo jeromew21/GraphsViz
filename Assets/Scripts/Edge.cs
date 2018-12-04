@@ -6,6 +6,8 @@ public class Edge : MonoBehaviour {
 	private GameObject originNode;
 	private GameObject targetNode;
 
+	public int weight = 1;
+
 	private bool initialized = false;
 
 	public void Initialize(GameObject n1, GameObject n2) {
