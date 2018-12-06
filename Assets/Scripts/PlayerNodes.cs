@@ -15,30 +15,45 @@ public class PlayerNodes : MonoBehaviour {
     private float handTriggerState = 0;
     private float oldIndexTriggerState = 0;
 
+    public GameObject root;
+
+    public GameObject brain;
+
+    bool clicked;
+
     // Use this for initialization
     void Start () {
         vertices = new List<GameObject>();
         edges = new List<List<GameObject>>();
-
+        clicked = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        oldIndexTriggerState = indexTriggerState;
+        indexTriggerState = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, controller);
+        handTriggerState = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, controller);
+    }
 
-    void PlaceNode()
+    void OnTriggerStay(Collider other)
     {
-        if (handTriggerState > 0.9f)
+        if (other.CompareTag("node"))
         {
-            InstantiateNode();
+            root = other.gameObject;
+            if (handTriggerState > 0.9f && !clicked)
+            {
+                print("Grabbing instantiate.");
+            }
+        }
+        else
+        {
+            clicked = !clicked;
         }
     }
 
     void InstantiateNode()
     {
-        //GameObject node = Instantiate(nodePrefab, OVRInput.GetLocalControllerPosition(controller));
-        //vertices.Add(node);
+        root.GetComponent<GVNode>().CreateNewNeighbor(OVRInput.GetLocalControllerPosition(controller));
     }
 
     /**

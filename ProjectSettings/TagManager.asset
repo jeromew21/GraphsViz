@@ -6,6 +6,13 @@ TagManager:
   tags:
   - node
   - edge
+  - TeleportIgnore
+  - demoPrefab
+  - flamePrefab
+  - linePrefab
+  - instructionsToggle
+  - instructionsText
+  - Result
   layers:
   - Default
   - TransparentFX

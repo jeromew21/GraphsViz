@@ -6,10 +6,15 @@ public class GraphMethods : MonoBehaviour {
 	public GameObject root;
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(Begin()); //Do not touch!!!
+		//StartCoroutine(Begin()); //Do not touch!!!
 	}
+     
+    public void Traverse()
+    {
+        StartCoroutine(Begin()); //Do not touch!!!
+    }
 
-	private IEnumerator Begin() { //Everything happens here
+    private IEnumerator Begin() { //Everything happens here
 		root.GetComponent<GVNode>().SetLabel("Breadth First Search");
 		yield return BFS(root.GetComponent<GVNode>());
 		root.GetComponent<GVNode>().Clear();
